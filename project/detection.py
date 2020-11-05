@@ -23,9 +23,10 @@ def face_save(name):
         elif count<=10:
             for (x, y, w, h) in faces:
                 cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+                cv2.imshow('cam', img)
                 crop = gray[y:y+h,x:x+w]
-                resize_img = cv2.resize(crop,(30,30))
-                s = '{}-{}.jpeg'.format(name,count)
+                resize_img = cv2.resize(crop,(128,128))
+                s = '{}-{}.png'.format(name,count)
                 cv2.imwrite(s,resize_img)
                 count+=1
             
