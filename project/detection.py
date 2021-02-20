@@ -31,13 +31,11 @@ def face_save(name):
                 cv2.imwrite(s,resize_img)
                 count+=1
 
+
         cv2.imshow('cam',img)
             
-                    
-
-
         
-        if cv2.waitKey(10) == 27 and count==200:
+        if cv2.waitKey(10) == 27 or count>=200:
             break
 
     vid.release()
