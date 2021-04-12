@@ -167,6 +167,12 @@ def live():
         if cv2.waitKey(20) & 0xFF == 27:
             cv2.destroyAllWindows()
             break
+def delete():
+    person_name = str(input("Enter Person Name to be deleted")).lower()
+    folder = 'people_folder' +'/'+ person_name
+    shutil.rmtree(folder,ignore_errors=True)
+
+
 
 while True:
     print("Hello there please select one of the below")
@@ -184,6 +190,8 @@ while True:
     elif choice == 2:
         live()
     elif choice == 3:
+        delete()
+    elif choice == 4:
         print('You opted to exit!')
         break
 
