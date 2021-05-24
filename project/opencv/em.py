@@ -24,5 +24,3 @@ def SendMail(ImgFileName):
     s.login('projectfinal009@gmail.com', 'Projectfinal@009')
     s.sendmail('projectfinal009@gmail.com', 'sajgaonkar007@gmail.com', msg.as_string())
     s.quit()
-
-SendMail('SEM3.png')
