@@ -15,6 +15,7 @@ import os
 import shutil
 import motor
 import em
+import receive
 
 # In[25]:
 
@@ -131,6 +132,10 @@ def live():
     k_run = 0
     u_run = 0
     while True:
+        msg = receive.r()
+        if msg[:-3].upper()=='Y':
+            motor.run_motor()
+            
         _, frame = webcam.read()
 
         faces = face_cascade.detectMultiScale(frame, 1.3, 5)
