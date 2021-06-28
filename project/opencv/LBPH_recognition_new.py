@@ -53,6 +53,16 @@ def save_faces(frame,faces,folder,counter):
 # In[26]:
 
 
+
+def recieved():
+    cv2.destroyAllWindows()
+    while receive.r():
+        if True:
+            motor.run_motor()
+            break
+    live()
+
+
 #Adds a new person to the dataset and creates a separate folder for them
 def add_person2(e9):
     person_name = e9.get()     #Get the name of the new person
@@ -92,10 +102,12 @@ def add_person2(e9):
 
             cv2.imshow('Video Feed', frame)
             cv2.waitKey(50)
-
+            
+            
     else:
-        print("This name already exists.")                                  # If the person already exists
-
+        print("This name already exists.")
+        
+    cv2.destroyAllWindows()
 
 # In[27]:
 
@@ -132,10 +144,6 @@ def live():
     k_run = 0
     u_run = 0
     while True:
-        msg = receive.r()
-        if msg:
-            motor.run_motor()
-            
         _, frame = webcam.read()
 
         faces = face_cascade.detectMultiScale(frame, 1.3, 5)
@@ -166,14 +174,19 @@ def live():
                 k_run += 1
                 if k_run>=10:
                     motor.run_motor()
+                    k_run = 0
             else:
                 k_run = 0
                 txt = 'Uknown'
                 u_run += 1
                 if u_run>=10:
-                    em.SendMail(face)
-                    sms
-                    
+                    #em.SendMail(face)
+                    #sms.send()
+                    print("chor aylo ")
+                    u_run=0
+                    webcam.release()
+                    recieved()
+                                
                     
 
             cv2.putText(frame, txt,
@@ -201,6 +214,8 @@ def delete2(e10):
     folder = 'people_folder' +'/'+ person_name
     try:
         shutil.rmtree(folder)
+        l8=Label(f4,text="deleted successfully",font=("arial",15,"bold"),bg="white").place(x=30,y=300)
+        e10.delete(0,END)   
     except FileNotFoundError:
         print("User Does not exists")
 
@@ -209,116 +224,93 @@ def delete2(e10):
 
 
 from tkinter import *
+from PIL import Image,ImageTk#pip install pillow
 root=Tk()
-root.geometry("700x700")
-root.resizable(0,0)
+root.title("security system")
+root.geometry("700x700+0+0")
+backimage = ImageTk.PhotoImage(file="background.jpeg")
+l0 = Label(root,image=backimage).place(x=250,y=0,relwidth=1,relheight=1)
 
-def pr(e9):
-    s9 = e9.get()
-    print(s9)
-
+backimages = ImageTk.PhotoImage(file="kilo.jpeg")
+l1 = Label(root,image=backimages).place(x=80,y=230,width=400,height=530)
 
 def delete():
-    f4=Frame(root,bg="#091e42")
-    f4.place(x=0,y=0,width=700,height=700)
-    l10=Label(f4,text="Enter name",font=("arial",25))
-    l10.grid(row=0,column=0,pady=25,sticky=W)
-    e10=Entry(f4,font=("arial",25))
-    e10.grid(row=0,column=1,pady=25)
+    f4=Frame(root,bg="white")
+    f4.place(x=480,y=230,width=800,height=530)
+    
+    
+    l7=Label(f4,text="Enter your name",font=("arial",15,"bold"),bg="white").place(x=20,y=20)
+    e4=Entry(f4,font=("arial",20))
+    e4.place(x=250,y=20)
+    
 
-    b10=Button(f4,text="start",font=("arial",25),command=lambda :delete2(e10))
-    b10.grid(row=2,column=0,pady=25,columnspan=2)
-
-    b11=Button(f4,text="back",font=("arial",25),command=show2)
-    b11.grid(row=3,column=0,pady=25,columnspan=2)
-
-
-
-
-
+    
+    b8=Button(f4,text="start",font=("arial",15,"bold"),bg="white",command=lambda: delete2(e4,f4)).place(x=350,y=100,anchor=CENTER)
+        
+    b9=Button(f4,text="back",font=("arial",15,"bold"),bg="white",command=show2).place(x=350,y=200,anchor=CENTER)
+    
 
 def add_person():
-    f3=Frame(root,bg="#091e42")
-    f3.place(x=0,y=0,width=700,height=700)
-    l9=Label(f3,text="whats your name",font=("arial",25))
-    l9.grid(row=0,column=0,pady=25,sticky=W)
-    e9=Entry(f3,font=("arial",25))
-    e9.grid(row=0,column=1,pady=25)
+    
+    f3=Frame(root,bg="white")
+    f3.place(x=480,y=230,width=800,height=530)
+    
+    
+    
+    l6=Label(f3,text="Enter your name",font=("arial",15,"bold"),bg="white").place(x=20,y=20)
+    e3=Entry(f3,font=("arial",20))
+    e3.place(x=250,y=20)
+    
 
-
-    b9=Button(f3,text="start",font=("arial",25),command=lambda :add_person2(e9))
-    b9.grid(row=2,column=0,pady=25,columnspan=2)
-
-    b8=Button(f3,text="back",font=("arial",25),command=show2)
-    b8.grid(row=3,column=0,pady=25,columnspan=2)
-
-def exit():
-    root.destroy()
-
-
-
-
-
+    
+    b6=Button(f3,text="start",font=("arial",15,"bold"),bg="white",command=lambda: add_person2(e3)).place(x=350,y=100,anchor=CENTER)
+        
+    b7=Button(f3,text="back",font=("arial",15,"bold"),bg="white",command=show2).place(x=350,y=200,anchor=CENTER)
+    
+    
 
 def show2():
+    
+    f2=Frame(root,bg="white")
+    f2.place(x=480,y=230,width=800,height=530)
 
-    f2=Frame(bg="#091e42",)
-    f2.place(x=0,y=0,width=700,height=700)
-    l3=Label(f2,text="welcome",font=("arial",25))
-    l3.grid(row=0,column=0,pady=25,sticky=W)
-    b2=Button(f2,text="add a face",font=("arial",25),command=add_person)
-    b2.place(x=350,y=120,anchor=CENTER)
-    b3=Button(f2,text="delete face",font=("arial",25),command=delete)
-    b3.place(x=350,y=200,anchor=CENTER)
-    b4=Button(f2,text="settings",font=("arial",25))
-    b4.place(x=350,y=280,anchor=CENTER)
-    b5=Button(f2,text="go live",font=("arial",25),command=live)
-    b5.place(x=350,y=360,anchor=CENTER)
-    b6=Button(f2,text="exit",font=("arial",25),command=exit)
-    b6.place(x=350,y=440,anchor=CENTER)
+    l5=Label(f2,text="welcome!",font=("arial",25,"bold"),bg="white").place(x=10,y=10)
+    b2=Button(f2,text="add a face",font=("arial",25,"bold"),bg="white",command=add_person).place(x=350,y=100,anchor=CENTER)
+    
+    b3=Button(f2,text="delete face",font=("arial",25,"bold"),bg="white",command=delete).place(x=350,y=200,anchor=CENTER)
+    b4=Button(f2,text="go live",font=("arial",25,"bold"),bg="white",command=live).place(x=350,y=300,anchor=CENTER)
+
+    b5=Button(f2,text="exit",font=("arial",25,"bold"),bg="white",command=quit).place(x=350,y=400,anchor=CENTER)
+
+        #b6=Button(f2,text="exit",font=("arial",25),command=exit)
+    #b6.place(x=350,y=440,anchor=CENTER)
+def quit():
+    root.destroy()
+        
 
 def show(e1,e2,f1):
-    s1=e1.get()
-    s2=e2.get()
-    print("i m show")
-    if (s1=="face" and s2=="f"):
+    if e1.get() == "face" and e2.get() == "f":
         show2()
     else:
-
-        l4=Label(f1,text="incorrect password",font=("arial",22))
-        l4.grid(row=4,column=0,pady=25,sticky=W)
-        b7=Button(f1,text="retry",font=("arial",25),command=house)
-        b7.grid(row=5,column=0,pady=25,columnspan=2,)
-
-
-
-
-
-
-
-
-
+        l5=Label(f1,text="incorrect password. Please try again",font=("arial",22)).place(x=50,y=400)
+        e1.delete(0,END)
+        e2.delete(0,END)
+    
 
 def house():
-    s1="face"
-    s2="f"
-    f1=Frame(bg="#091e42")
-    f1.place(x=0,y=0,width=700,height=700)
+    
+    f1=Frame(root,bg="white")
+    f1.place(x=480,y=230,width=800,height=530)
 
-    l1=Label(f1,text="enter user name",font=("arial",25))
-    l1.grid(row=0,column=0,pady=25,sticky=W)
-    e1=Entry(f1,font=("arial",25))
-    e1.grid(row=0,column=1,pady=25)
+    l2=Label(f1,text="Login page",font=("arial",35,"bold"),bg="white",fg="green").place(x=50,y=30)
 
+    l3=Label(f1,text="Enter your name",font=("arial",20,"bold"),bg="white",fg="black").place(x=50,y=120)
+    e1=Entry(f1,font=("arial",15))
+    e1.place(x=50,y=170)
 
-    l2=Label(f1,text="enter Password",font=("arial",25))
-    l2.grid(row=1,column=0,pady=25)
-    e2=Entry(f1,show='*',font=("arial",25))
-    e2.grid(row=1,column=1,pady=25)
-
-
-    b1=Button(f1,text="login",font=("arial",25),command=lambda: show(e1,e2,f1))
-    b1.grid(row=2,column=0,pady=25,columnspan=2)
+    l4=Label(f1,text="Enter your password",font=("arial",20,"bold"),bg="white",fg="black").place(x=50,y=200)
+    e2=Entry(f1,font=("arial",15),show="*")
+    e2.place(x=50,y=240)
 
 
 
@@ -326,19 +318,10 @@ def house():
 
 
 
-
-
-
-    print("i m fool")
-
+    b1=Button(f1,text="login",bg="white",font=("arial",20,"bold"),command=lambda: show(e1,e2,f1)).place(x=50,y=300)
     root.mainloop()
-
-
 house()
 
-
-
-cv2.destroyAllWindows()
 
 
 # In[ ]:

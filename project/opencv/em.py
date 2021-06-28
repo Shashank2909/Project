@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 
 
 def SendMail(ImgFileName):
-    img_data = open(ImgFileName, 'rb').read()
+    img_data = ImgFileName
     msg = MIMEMultipart()
     msg['Subject'] = 'Alert'
     msg['From'] = 'projectfinal009@gmail.com'
@@ -14,7 +14,7 @@ def SendMail(ImgFileName):
 
     text = MIMEText("test")
     msg.attach(text)
-    image = MIMEImage(img_data, name=os.path.basename(ImgFileName))
+    image = MIMEImage(img_data, name=ImgFileName)
     msg.attach(image)
 
     s = smtplib.SMTP('smtp.gmail.com', 25)

@@ -15,6 +15,7 @@ GPIO.setup(11,GPIO.OUT)
 servo1 = GPIO.PWM(11,50) 
 
 def run_motor():
+    print("motor runned")
     servo1.start(0)
     time.sleep(2)
     
@@ -27,5 +28,6 @@ def run_motor():
     time.sleep(0.5)
     servo1.ChangeDutyCycle(0)
     
-    servo1.stop()
-    GPIO.cleanup()
+    #servo1.stop()
+    #GPIO.cleanup()
+
