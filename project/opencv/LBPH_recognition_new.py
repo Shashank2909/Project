@@ -16,7 +16,7 @@ import shutil
 import motor
 import em
 import receive
-
+import sms
 # In[25]:
 
 
@@ -133,7 +133,7 @@ def live():
     u_run = 0
     while True:
         msg = receive.r()
-        if msg[:-3].upper()=='Y':
+        if msg:
             motor.run_motor()
             
         _, frame = webcam.read()
@@ -172,6 +172,9 @@ def live():
                 u_run += 1
                 if u_run>=10:
                     em.SendMail(face)
+                    sms
+                    
+                    
 
             cv2.putText(frame, txt,
                         (faces[0][0], faces[0][1] - 10),
