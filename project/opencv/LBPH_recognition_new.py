@@ -13,7 +13,7 @@ import time
 # from gtts import gTTS
 import os
 import shutil
-import motor
+#import motor
 import em
 import receive
 import sms
@@ -58,7 +58,8 @@ def recieved():
     cv2.destroyAllWindows()
     while receive.r():
         if True:
-            motor.run_motor()
+            pass
+            # motor.run_motor()
             break
     live()
 
@@ -173,7 +174,7 @@ def live():
                 txt = labels_dic[pred].upper()
                 k_run += 1
                 if k_run>=10:
-                    motor.run_motor()
+                    #motor.run_motor()
                     k_run = 0
             else:
                 k_run = 0
