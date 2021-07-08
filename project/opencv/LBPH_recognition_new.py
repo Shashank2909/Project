@@ -7,7 +7,7 @@
 import numpy as np
 import os
 import math
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import cv2
 import time
 # from gtts import gTTS
@@ -19,6 +19,8 @@ import receive
 import sms
 # In[25]:
 
+USER = "face"
+PASSWORD = "f"
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+"haarcascade_frontalface_alt.xml")  # Object of face detector
 profile_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_profileface.xml")
@@ -228,80 +230,124 @@ from tkinter import *
 from PIL import Image,ImageTk#pip install pillow
 root=Tk()
 root.title("security system")
-root.geometry("700x700+0+0")
-backimage = ImageTk.PhotoImage(file="background.jpeg")
-l0 = Label(root,image=backimage).place(x=250,y=0,relwidth=1,relheight=1)
+root.geometry("500x600+0+0")
+strvar = StringVar(root,name="password")
+#backimage = ImageTk.PhotoImage(file="background.jpeg")
+#l0 = Label(root,image=backimage).place(x=350,y=0,relwidth=1,relheight=1)
 
-backimages = ImageTk.PhotoImage(file="kilo.jpeg")
-l1 = Label(root,image=backimages).place(x=80,y=230,width=400,height=530)
+#backimages = ImageTk.PhotoImage(file="kilo.jpeg")
+#l1 = Label(root,image=backimages).place(x=80,y=230,width=400,height=530)
 
 def delete():
     f4=Frame(root,bg="white")
-    f4.place(x=480,y=230,width=800,height=530)
+    f4.place(x=0,y=0,width=500,height=600)
     
-    
-    l7=Label(f4,text="Enter your name",font=("arial",15,"bold"),bg="white").place(x=20,y=20)
+    l7=Label(f4,text="Enter your name",font=("arial",15,"bold"),bg="white").place(x=10,y=20)
     e4=Entry(f4,font=("arial",20))
-    e4.place(x=250,y=20)
+    e4.place(x=10,y=60)
     
+    b8=Button(f4,text="start",font=("arial",15,"bold"),bg="white",command=lambda: delete2(e4,f4)).place(x=50,y=120,anchor=CENTER)
+ 
+    b9=Button(f4,text="back",font=("arial",15,"bold"),bg="white",command=show2).place(x=50,y=180,anchor=CENTER)
 
+def password():
+    f=Frame(root,bg="white").place(x=0,y=0,width=500,height=600)
+    l = Label(f,text="Enter new User ID",font=("arial",15,"bold"),bg="white").place(x=10,y=20)
+    e1 = Entry(f,font=("arial",20))
+    e1.place(x=10,y=60)
+    b=Button(f,text="change",font=("arial",15,"bold"),bg="white",command=lambda: ch_id(f,e1)).place(x=60,y=130,anchor=CENTER)
     
-    b8=Button(f4,text="start",font=("arial",15,"bold"),bg="white",command=lambda: delete2(e4,f4)).place(x=350,y=100,anchor=CENTER)
+    l = Label(f,text="Enter new password",font=("arial",15,"bold"),bg="white").place(x=10,y=160)
+    e2 = Entry(f,font=("arial",20))
+    e2.place(x=10,y=200)
+    b=Button(f,text="change",font=("arial",15,"bold"),bg="white",command=lambda: ch_pass(f,e2)).place(x=60,y=270,anchor=CENTER)
+
+    Button(f,text="back",font=("arial",25,"bold"),bg="white",command=settings).place(x=230,y=370,anchor=CENTER)
         
-    b9=Button(f4,text="back",font=("arial",15,"bold"),bg="white",command=show2).place(x=350,y=200,anchor=CENTER)
-    
-
 def add_person():
     
     f3=Frame(root,bg="white")
-    f3.place(x=480,y=230,width=800,height=530)
+    f3.place(x=0,y=0,width=500,height=600)
     
-    
-    
-    l6=Label(f3,text="Enter your name",font=("arial",15,"bold"),bg="white").place(x=20,y=20)
+    l6=Label(f3,text="Enter your name",font=("arial",15,"bold"),bg="white").place(x=10,y=20)
     e3=Entry(f3,font=("arial",20))
-    e3.place(x=250,y=20)
+    e3.place(x=10,y=60)
     
-
-    
-    b6=Button(f3,text="start",font=("arial",15,"bold"),bg="white",command=lambda: add_person2(e3)).place(x=350,y=100,anchor=CENTER)
+    b6=Button(f3,text="start",font=("arial",15,"bold"),bg="white",command=lambda: add_person2(e3)).place(x=50,y=120,anchor=CENTER)
         
-    b7=Button(f3,text="back",font=("arial",15,"bold"),bg="white",command=show2).place(x=350,y=200,anchor=CENTER)
-    
+    b7=Button(f3,text="back",font=("arial",15,"bold"),bg="white",command=show2).place(x=50,y=180,anchor=CENTER)
+
+def settings():
+    f5=Frame(root,bg="white").place(x=0,y=0,width=500,height=600)
+    l8=Label(f5,text="Settings",font=("arial",25,"bold"),bg="white").place(x=150,y=10)
+    b10=Button(f5,text="Change password and username",font=("arial",15,"bold"),bg="white",command=password).place(x=230,y=100,anchor=CENTER)
+    b=Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=230,y=200,anchor=CENTER)
     
 
+def quit():
+    root.destroy()
+
+def ch_id(f,id):
+    file = open("password.txt","r")
+    lines = file.readlines()
+    file.close()
+    lines[0] = id.get() + "\n"
+    file = open("password.txt","w")
+    file.writelines(lines)
+    file.close()
+    
+    id.delete(0,END)
+    l = Label(f,text="ID changed",font=("arial",15),bg="white")
+    l.place(x=120,y=120)
+    root.after(2000,l.destroy)
+    
+def ch_pass(f,p):
+    file = open("password.txt","r")
+    lines = file.readlines()
+    file.close()
+    lines[1] = p.get() + "\n"
+    file = open("password.txt","w")
+    file.writelines(lines)
+    file.close()
+
+    p.delete(0,END)
+    l = Label(f,text="Password changed",font=("arial",15),bg="white")
+    l.place(x=120,y=260)
+    root.after(2000,l.destroy)
+    
+def show(e1,e2,f1):
+    file1 = open("password.txt","r")
+    lines = file1.readlines()
+    file1.close()
+    if e1.get() == lines[0].strip() and e2.get() == lines[1].strip() :
+        show2()
+    else:
+        l5=Label(f1,text="Incorrect password. Please try again",font=("arial",12))
+        l5.place(x=50,y=400)
+        root.after(2000,l5.destroy)
+        e1.delete(0,END)
+        e2.delete(0,END)
+        
 def show2():
     
     f2=Frame(root,bg="white")
-    f2.place(x=480,y=230,width=800,height=530)
+    f2.place(x=0,y=0,width=500,height=600)
 
-    l5=Label(f2,text="welcome!",font=("arial",25,"bold"),bg="white").place(x=10,y=10)
-    b2=Button(f2,text="add a face",font=("arial",25,"bold"),bg="white",command=add_person).place(x=350,y=100,anchor=CENTER)
+    l5=Label(f2,text="welcome!",font=("arial",25,"bold"),bg="white").place(x=150,y=10)
+    b2=Button(f2,text="add a face",font=("arial",25,"bold"),bg="white",command=add_person).place(x=230,y=100,anchor=CENTER)
     
-    b3=Button(f2,text="delete face",font=("arial",25,"bold"),bg="white",command=delete).place(x=350,y=200,anchor=CENTER)
-    b4=Button(f2,text="go live",font=("arial",25,"bold"),bg="white",command=live).place(x=350,y=300,anchor=CENTER)
-
-    b5=Button(f2,text="exit",font=("arial",25,"bold"),bg="white",command=quit).place(x=350,y=400,anchor=CENTER)
+    b3=Button(f2,text="delete face",font=("arial",25,"bold"),bg="white",command=delete).place(x=230,y=200,anchor=CENTER)
+    b0=Button(f2,text="settings",font=("arial",25,"bold"),bg="white",command=settings).place(x=230,y=300,anchor=CENTER)
+    b4=Button(f2,text="go live",font=("arial",25,"bold"),bg="white",command=live).place(x=230,y=400,anchor=CENTER)
+    b5=Button(f2,text="exit",font=("arial",25,"bold"),bg="white",command=quit).place(x=230,y=500,anchor=CENTER)
 
         #b6=Button(f2,text="exit",font=("arial",25),command=exit)
-    #b6.place(x=350,y=440,anchor=CENTER)
-def quit():
-    root.destroy()
-        
-
-def show(e1,e2,f1):
-    if e1.get() == "face" and e2.get() == "f":
-        show2()
-    else:
-        l5=Label(f1,text="incorrect password. Please try again",font=("arial",22)).place(x=50,y=400)
-        e1.delete(0,END)
-        e2.delete(0,END)
-    
+    #b6.place(x=350,y=440,anchor=CENTER)    
 
 def house():
     
     f1=Frame(root,bg="white")
-    f1.place(x=480,y=230,width=800,height=530)
+    f1.place(x=0,y=0,width=500,height=600)
 
     l2=Label(f1,text="Login page",font=("arial",35,"bold"),bg="white",fg="green").place(x=50,y=30)
 
@@ -312,9 +358,6 @@ def house():
     l4=Label(f1,text="Enter your password",font=("arial",20,"bold"),bg="white",fg="black").place(x=50,y=200)
     e2=Entry(f1,font=("arial",15),show="*")
     e2.place(x=50,y=240)
-
-
-
 
 
 
