@@ -15,12 +15,9 @@ import os
 import shutil
 #import motor
 import em
-import receive
+import recieve
 import sms
 # In[25]:
-
-USER = "face"
-PASSWORD = "f"
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+"haarcascade_frontalface_alt.xml")  # Object of face detector
 profile_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_profileface.xml")
@@ -58,17 +55,19 @@ def save_faces(frame,faces,folder,counter):
 
 def recieved():
     cv2.destroyAllWindows()
-    while receive.r():
-        if True:
-            pass
-            # motor.run_motor()
+    var = "STOP"
+    while var == "STOP":
+        var = recieve.r()
+        if var == "YES":
+            motor.run_motor()
+            break
+        elif var == "NO":
             break
     live()
 
 
-#Adds a new person to the dataset and creates a separate folder for them
 def add_person2(e9):
-    person_name = e9.get()     #Get the name of the new person
+    person_name = e9.get()  
 
     folder = 'people_folder' +'/'+ person_name
 
@@ -114,9 +113,6 @@ def add_person2(e9):
 
 # In[27]:
 
-
-#Does the face recognition in real time
-#Pressing ESC closes the live recognition
 def live():
 
     cv2.namedWindow('Predicting for')
@@ -176,16 +172,15 @@ def live():
                 txt = labels_dic[pred].upper()
                 k_run += 1
                 if k_run>=10:
-                    #motor.run_motor()
+                    motor.run_motor()
                     k_run = 0
             else:
                 k_run = 0
                 txt = 'Uknown'
                 u_run += 1
                 if u_run>=10:
-                    #em.SendMail(face)
-                    #sms.send()
-                    print("chor aylo ")
+                    em.SendMail(face)
+                    sms.send()
                     u_run=0
                     webcam.release()
                     recieved()
@@ -280,8 +275,17 @@ def add_person():
 def settings():
     f5=Frame(root,bg="white").place(x=0,y=0,width=500,height=600)
     l8=Label(f5,text="Settings",font=("arial",25,"bold"),bg="white").place(x=150,y=10)
+    
     b10=Button(f5,text="Change password and username",font=("arial",15,"bold"),bg="white",command=password).place(x=230,y=100,anchor=CENTER)
-    b=Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=230,y=200,anchor=CENTER)
+    
+    Label(f5,text="Add/Delete Phone Number",font=("arial",15,"bold"),bg="white").place(x=230,y=180,anchor=CENTER)
+    e=Entry(f5,font=("arial",20))
+    e.place(x=80,y=200)
+    
+    Button(f5,text="Add",font=("arial",25,"bold"),bg="white",command=lambda:add_num(f5,e)).place(x=150,y=280,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",25,"bold"),bg="white",command=lambda:del_num(f5,e)).place(x=300,y=280,anchor=CENTER)
+    
+    Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=230,y=500,anchor=CENTER)
     
 
 def quit():
@@ -302,24 +306,62 @@ def ch_id(f,id):
     root.after(2000,l.destroy)
     
 def ch_pass(f,p):
-    file = open("password.txt","r")
+    file = open("password.txt","w+")
     lines = file.readlines()
     file.close()
     lines[1] = p.get() + "\n"
     file = open("password.txt","w")
     file.writelines(lines)
     file.close()
-
+    
     p.delete(0,END)
     l = Label(f,text="Password changed",font=("arial",15),bg="white")
     l.place(x=120,y=260)
     root.after(2000,l.destroy)
+
+def add_num(f5,e):
+    num = e.get() + "\n"
+    file = open("phonebook.txt","r")
+    lines = file.readlines()
+    file.close()
+    
+    file = open("phonebook.txt","w")
+    lines.append(num)
+    file.writelines(lines)
+    print(lines)
+    file.close()
+    
+    l = Label(f5,text="Number Added",font=("arial",15),bg="white")
+    l.place(x=75,y=320)
+    root.after(2000,l.destroy)
+
+def del_num(f5,e):
+    try:
+        num = e.get() +"\n"
+        file = open("phonebook.txt","r")
+        lines = file.readlines()
+        file.close()
+        
+        file = open("phonebook.txt","w")
+        lines.remove(num)
+        file.writelines(lines)
+        print(lines)
+        file.close()
+        
+        l = Label(f5,text="Number Deleted",font=("arial",15),bg="white")
+        l.place(x=75,y=320)
+        root.after(2000,l.destroy)
+    except:
+        l = Label(f5,text="Number not present",font=("arial",15),bg="white")
+        l.place(x=75,y=320)
+        root.after(2000,l.destroy)
+        
     
 def show(e1,e2,f1):
     file1 = open("password.txt","r")
     lines = file1.readlines()
     file1.close()
-    if e1.get() == lines[0].strip() and e2.get() == lines[1].strip() :
+    if True: #e1.get() == lines[0].strip() and e2.get() == lines[1].strip() :
         show2()
     else:
         l5=Label(f1,text="Incorrect password. Please try again",font=("arial",12))
@@ -340,9 +382,7 @@ def show2():
     b0=Button(f2,text="settings",font=("arial",25,"bold"),bg="white",command=settings).place(x=230,y=300,anchor=CENTER)
     b4=Button(f2,text="go live",font=("arial",25,"bold"),bg="white",command=live).place(x=230,y=400,anchor=CENTER)
     b5=Button(f2,text="exit",font=("arial",25,"bold"),bg="white",command=quit).place(x=230,y=500,anchor=CENTER)
-
-        #b6=Button(f2,text="exit",font=("arial",25),command=exit)
-    #b6.place(x=350,y=440,anchor=CENTER)    
+    
 
 def house():
     
