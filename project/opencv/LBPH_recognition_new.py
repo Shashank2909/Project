@@ -282,10 +282,18 @@ def settings():
     e=Entry(f5,font=("arial",20))
     e.place(x=80,y=200)
     
-    Button(f5,text="Add",font=("arial",25,"bold"),bg="white",command=lambda:add_num(f5,e)).place(x=150,y=280,anchor=CENTER)
-    Button(f5,text="Delete",font=("arial",25,"bold"),bg="white",command=lambda:del_num(f5,e)).place(x=300,y=280,anchor=CENTER)
+    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_num(f5,e)).place(x=150,y=280,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_num(f5,e)).place(x=300,y=280,anchor=CENTER)
+
+
+    Label(f5,text="Add/Delete Email ID",font=("arial",15,"bold"),bg="white").place(x=230,y=360,anchor=CENTER)
+    e=Entry(f5,font=("arial",20))
+    e.place(x=80,y=380)
     
-    Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=230,y=500,anchor=CENTER)
+    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_em(f5,e)).place(x=150,y=460,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_em(f5,e)).place(x=300,y=460,anchor=CENTER)
+    
+    Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=230,y=530,anchor=CENTER)
     
 
 def quit():
@@ -331,8 +339,8 @@ def add_num(f5,e):
     print(lines)
     file.close()
     
-    l = Label(f5,text="Number Added",font=("arial",15),bg="white")
-    l.place(x=75,y=320)
+    l = Label(f5,text="Number Added",font=("arial",20),bg="white",fg="red")
+    l.place(x=140,y=310)
     root.after(2000,l.destroy)
 
 def del_num(f5,e):
@@ -348,15 +356,51 @@ def del_num(f5,e):
         print(lines)
         file.close()
         
-        l = Label(f5,text="Number Deleted",font=("arial",15),bg="white")
-        l.place(x=75,y=320)
+        l = Label(f5,text="Number Deleted",font=("arial",20),bg="white",fg="red")
+        l.place(x=140,y=310)
         root.after(2000,l.destroy)
     except:
-        l = Label(f5,text="Number not present",font=("arial",15),bg="white")
-        l.place(x=75,y=320)
+        l = Label(f5,text="Number not present",font=("arial",20),bg="white",fg="red")
+        l.place(x=150,y=310)
         root.after(2000,l.destroy)
         
+def add_em(f5,e):
+    m = e.get() + "\n"
+    file = open("mailbook.txt","r")
+    lines = file.readlines()
+    file.close()
     
+    file = open("mailbook.txt","w")
+    lines.append(m)
+    file.writelines(lines)
+    print(lines)
+    file.close()
+    
+    l = Label(f5,text="Email Added",font=("arial",20),bg="white",fg="red")
+    l.place(x=140,y=310)
+    root.after(2000,l.destroy)
+    
+def del_em(f5,e):
+    try:
+        m = e.get() +"\n"
+        file = open("mailbook.txt","r")
+        lines = file.readlines()
+        file.close()
+        
+        file = open("mailbook.txt","w")
+        lines.remove(m)
+        file.writelines(lines)
+        print(lines)
+        file.close()
+        
+        l = Label(f5,text="Email Deleted",font=("arial",20),bg="white",fg="red")
+        l.place(x=150,y=310)
+        root.after(2000,l.destroy)
+    except:
+        l = Label(f5,text="Email not present",font=("arial",20),bg="white")
+        l.place(x=140,y=310)
+        root.after(2000,l.destroy)
+        
 def show(e1,e2,f1):
     file1 = open("password.txt","r")
     lines = file1.readlines()
