@@ -226,9 +226,8 @@ from PIL import Image,ImageTk#pip install pillow
 root=Tk()
 root.title("security system")
 root.geometry("500x600+0+0")
-strvar = StringVar(root,name="password")
-#backimage = ImageTk.PhotoImage(file="background.jpeg")
-#l0 = Label(root,image=backimage).place(x=350,y=0,relwidth=1,relheight=1)
+backimage = ImageTk.PhotoImage(file="background.jpeg")
+Label(root,image=backimage).place(x=0,y=0,relwidth=1,relheight=1)
 
 #backimages = ImageTk.PhotoImage(file="kilo.jpeg")
 #l1 = Label(root,image=backimages).place(x=80,y=230,width=400,height=530)
@@ -274,26 +273,26 @@ def add_person():
 
 def settings():
     f5=Frame(root,bg="white").place(x=0,y=0,width=500,height=600)
-    l8=Label(f5,text="Settings",font=("arial",25,"bold"),bg="white").place(x=150,y=10)
+    l8=Label(f5,text="Settings",font=("arial",35,"bold"),bg="white",fg="green").place(x=130,y=10)
     
-    b10=Button(f5,text="Change password and username",font=("arial",15,"bold"),bg="white",command=password).place(x=230,y=100,anchor=CENTER)
+    b10=Button(f5,text="Change Password/Username",font=("arial",15,"bold"),bg="white",command=password).place(x=235,y=100,anchor=CENTER)
     
-    Label(f5,text="Add/Delete Phone Number",font=("arial",15,"bold"),bg="white").place(x=230,y=180,anchor=CENTER)
+    Label(f5,text="Add/Delete Phone Number",font=("arial",15,"bold"),bg="white").place(x=235,y=180,anchor=CENTER)
     e=Entry(f5,font=("arial",20))
-    e.place(x=80,y=200)
+    e.place(x=85,y=200)
     
-    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_num(f5,e)).place(x=150,y=280,anchor=CENTER)
-    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_num(f5,e)).place(x=300,y=280,anchor=CENTER)
+    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_num(f5,e)).place(x=155,y=280,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_num(f5,e)).place(x=305,y=280,anchor=CENTER)
 
 
-    Label(f5,text="Add/Delete Email ID",font=("arial",15,"bold"),bg="white").place(x=230,y=360,anchor=CENTER)
+    Label(f5,text="Add/Delete Email ID",font=("arial",15,"bold"),bg="white").place(x=235,y=360,anchor=CENTER)
     e=Entry(f5,font=("arial",20))
-    e.place(x=80,y=380)
+    e.place(x=85,y=380)
     
-    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_em(f5,e)).place(x=150,y=460,anchor=CENTER)
-    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_em(f5,e)).place(x=300,y=460,anchor=CENTER)
+    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_em(f5,e)).place(x=155,y=460,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_em(f5,e)).place(x=305,y=460,anchor=CENTER)
     
-    Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=230,y=530,anchor=CENTER)
+    Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=235,y=530,anchor=CENTER)
     
 
 def quit():
@@ -314,7 +313,7 @@ def ch_id(f,id):
     root.after(2000,l.destroy)
     
 def ch_pass(f,p):
-    file = open("password.txt","w+")
+    file = open("password.txt","r")
     lines = file.readlines()
     file.close()
     lines[1] = p.get() + "\n"
@@ -336,7 +335,6 @@ def add_num(f5,e):
     file = open("phonebook.txt","w")
     lines.append(num)
     file.writelines(lines)
-    print(lines)
     file.close()
     
     l = Label(f5,text="Number Added",font=("arial",20),bg="white",fg="red")
@@ -405,7 +403,7 @@ def show(e1,e2,f1):
     file1 = open("password.txt","r")
     lines = file1.readlines()
     file1.close()
-    if True: #e1.get() == lines[0].strip() and e2.get() == lines[1].strip() :
+    if e1.get() == lines[0].strip() and e2.get() == lines[1].strip() :
         show2()
     else:
         l5=Label(f1,text="Incorrect password. Please try again",font=("arial",12))
@@ -419,7 +417,7 @@ def show2():
     f2=Frame(root,bg="white")
     f2.place(x=0,y=0,width=500,height=600)
 
-    l5=Label(f2,text="welcome!",font=("arial",25,"bold"),bg="white").place(x=150,y=10)
+    l5=Label(f2,text="welcome!",font=("arial",35,"bold"),bg="white",fg="green").place(x=125,y=10)
     b2=Button(f2,text="add a face",font=("arial",25,"bold"),bg="white",command=add_person).place(x=230,y=100,anchor=CENTER)
     
     b3=Button(f2,text="delete face",font=("arial",25,"bold"),bg="white",command=delete).place(x=230,y=200,anchor=CENTER)
