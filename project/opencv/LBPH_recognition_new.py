@@ -278,19 +278,19 @@ def settings():
     b10=Button(f5,text="Change Password/Username",font=("arial",15,"bold"),bg="white",command=password).place(x=235,y=100,anchor=CENTER)
     
     Label(f5,text="Add/Delete Phone Number",font=("arial",15,"bold"),bg="white").place(x=235,y=180,anchor=CENTER)
-    e=Entry(f5,font=("arial",20))
-    e.place(x=85,y=200)
+    e1=Entry(f5,font=("arial",20))
+    e1.place(x=85,y=200)
     
-    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_num(f5,e)).place(x=155,y=280,anchor=CENTER)
-    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_num(f5,e)).place(x=305,y=280,anchor=CENTER)
+    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_num(f5,e1)).place(x=155,y=280,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_num(f5,e1)).place(x=305,y=280,anchor=CENTER)
 
 
     Label(f5,text="Add/Delete Email ID",font=("arial",15,"bold"),bg="white").place(x=235,y=360,anchor=CENTER)
-    e=Entry(f5,font=("arial",20))
-    e.place(x=85,y=380)
+    e2=Entry(f5,font=("arial",20))
+    e2.place(x=85,y=380)
     
-    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_em(f5,e)).place(x=155,y=460,anchor=CENTER)
-    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_em(f5,e)).place(x=305,y=460,anchor=CENTER)
+    Button(f5,text="Add",font=("arial",15,"bold"),bg="white",command=lambda:add_em(f5,e2)).place(x=155,y=460,anchor=CENTER)
+    Button(f5,text="Delete",font=("arial",15,"bold"),bg="white",command=lambda:del_em(f5,e2)).place(x=305,y=460,anchor=CENTER)
     
     Button(f5,text="back",font=("arial",25,"bold"),bg="white",command=show2).place(x=235,y=530,anchor=CENTER)
     
@@ -328,6 +328,7 @@ def ch_pass(f,p):
 
 def add_num(f5,e):
     num = e.get() + "\n"
+    print(num)
     file = open("phonebook.txt","r")
     lines = file.readlines()
     file.close()

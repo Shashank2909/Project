@@ -1,6 +1,14 @@
 import serial 
 import time
 
+number = []
+file = open("phonebook.txt","r")
+lines = file.readlines()
+file.close()
+
+for line in lines:
+    number.append((line.strip()).encode())
+    
 def send():
     SERIAL_PORT = "/dev/ttyS0"
 
@@ -10,7 +18,7 @@ def send():
     print("Text mode enabled...")
     time.sleep(1)
     ser.write('AT+CMGS="7083242732"\r'.encode())
-    msg = "chor ailo"+chr(26)
+    msg = "Dear User Some unknown person is at your door,reply with yes or No to allow entry"+chr(26)
     print("sending message....")
     time.sleep(1)
     ser.write(msg.encode())
